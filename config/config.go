@@ -12,9 +12,14 @@ type appConfig struct {
 	Port        int    `envconfig:"APP_PORT" default:"3000"`
 }
 
+type mongoConfig struct {
+	URI string `envconfig:"MONGO_URI"`
+	DB  string `envconfig:"MONGO_DB" default:"test"`
+}
+
 type config struct {
-	App appConfig
-	// Mongo      mongoConfig
+	App        appConfig
+	Mongo      mongoConfig
 	JWT_Secret string `envconfig:"JWT_SECRET"`
 }
 

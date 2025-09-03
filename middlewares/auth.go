@@ -2,7 +2,7 @@ package middlewares
 
 import (
 	"github.com/gofiber/fiber/v2"
-	jwt "github.com/kanta/backend-challenge/interfrastucture"
+	jwt "github.com/kanta/backend-challenge/infrastructure"
 )
 
 func JWTAuth(secret string) fiber.Handler {
