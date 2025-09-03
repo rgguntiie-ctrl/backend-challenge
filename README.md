@@ -3,8 +3,8 @@
 
 ## Clone the repository:
 
-git clone https://github.com/rgguntiie-ctrl/backend-challenge.git
-cd backend-challenge
+- git clone https://github.com/rgguntiie-ctrl/backend-challenge.git
+- cd backend-challenge
 
 
 ## Install dependencies:
