@@ -1,0 +1,64 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: backend-postgres
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: "123456"
+      POSTGRES_DB: be_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7
+    container_name: backend-redis
+    restart: always
+    ports:
+      - "6379:6379"
+    command: redis-server --appendonly yes
+    volumes:
+      - redisdata:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+
+  backend-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: backend-api
+    restart: always
+    ports:
+      - "3000:3000"
+    environment:
+      APP_HOST: "0.0.0.0"
+      APP_PORT: "3000"
+      JWT_SECRET: "test-backend-challenge-secret"
+      PSQL_HOST: "postgres"
+      PSQL_PORT: "5432"
+      PSQL_USER: "postgres"
+      PSQL_PASS: "123456"
+      PSQL_DB: "be_db"
+      REDIS_ADDRESS: "redis:6379"
+      REDIS_PASSWORD: ""
+      REDIS_DB: "0"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+volumes:
+  pgdata:
+  redisdata:

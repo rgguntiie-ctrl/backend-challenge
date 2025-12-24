@@ -1,0 +1,113 @@
+definitions:
+  domain.Login:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+    type: object
+  domain.RefreshTokenRequest:
+    properties:
+      refresh_token:
+        type: string
+    type: object
+  domain.User:
+    properties:
+      created_at:
+        type: string
+      email:
+        type: string
+      id:
+        type: string
+      name:
+        type: string
+      password:
+        type: string
+    type: object
+info:
+  contact: {}
+paths:
+  /auth/login:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Login info
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/domain.Login'
+      produces:
+      - application/json
+      responses: {}
+      summary: Login and get JWT
+      tags:
+      - Auth
+  /auth/logout:
+    post:
+      consumes:
+      - application/json
+      description: Invalidate the current user session by revoking tokens from Redis
+      produces:
+      - application/json
+      responses: {}
+      security:
+      - BearerAuth: []
+      summary: Logout user
+      tags:
+      - Logout
+  /auth/refresh:
+    post:
+      consumes:
+      - application/json
+      description: Get a new access token using refresh token
+      parameters:
+      - description: Refresh token
+        in: body
+        name: refresh
+        required: true
+        schema:
+          $ref: '#/definitions/domain.RefreshTokenRequest'
+      produces:
+      - application/json
+      responses: {}
+      summary: Refresh access token
+      tags:
+      - Auth
+  /auth/register:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: User info
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/domain.User'
+      produces:
+      - application/json
+      responses: {}
+      summary: Register new user
+      tags:
+      - Auth
+  /users/me:
+    get:
+      consumes:
+      - application/json
+      description: Get authenticated user's profile information
+      produces:
+      - application/json
+      responses: {}
+      security:
+      - BearerAuth: []
+      summary: Get current user profile
+      tags:
+      - users
+securityDefinitions:
+  BearerAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"
