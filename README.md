@@ -60,7 +60,7 @@ This will start:
 
 Copy the example file:
 ```bash
-cp .env.example .env
+cp env.example .env
 ```
 
 The `.env` file should contain:
