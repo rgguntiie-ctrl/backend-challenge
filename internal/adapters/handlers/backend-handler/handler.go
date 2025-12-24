@@ -56,7 +56,7 @@ func (h *backEndHandler) Register(c *fiber.Ctx) error {
 	if err != nil {
 		return c.JSON(meta.NewMetaError(http.StatusBadRequest, err.Error()))
 	}
-	ok := meta.NewMetaOK("register successfully", map[string]interface{}{"message": "registered"})
+	ok := meta.NewMetaOK("registered", nil)
 	return c.JSON(ok)
 }
 
